@@ -1,4 +1,4 @@
-class SwapiService {
+export default class SwapiService {
   /* eslint no-underscore-dangle: 0 */
   _apiBase = 'https://swapi.dev/api';
 
@@ -39,5 +39,3 @@ class SwapiService {
     return this.getResource(`/starships/${id}/`);
   }
 }
-
-export default SwapiService;
