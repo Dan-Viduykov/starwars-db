@@ -51,7 +51,8 @@
     ],
     "react/destructuring-assignment": "off",
     "no-param-reassign": "off",
-    "no-return-assign": "off"
+    "no-return-assign": "off",
+    "no-unused-vars": "warn"
   },
   "settings": {
     "react": {
