@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../Header';
 import ItemList from '../ItemList';
-import PersonDetails from '../PersonDetails/PersonDetails';
+import PersonDetails from '../PersonDetails';
 import RandomPlanet from '../RandomPlanet';
 import './App.css';
 
