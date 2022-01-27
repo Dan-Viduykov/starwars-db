@@ -1,70 +1,195 @@
-# Getting Started with Create React App
+1. Open the root folder of your project through the command line
+   It may looks like the following below:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+   [user@fedora my-app]$
 
-## Available Scripts
+2. Run the next Terminal Commands to install require packets from npm
 
-In the project directory, you can run:
+npm i --save-dev eslint
+npm i --save-dev prettier
+npm i --save-dev babel-eslint
+npm i --save-dev eslint-config-airbnb
+npm i --save-dev eslint-config-prettier
+npm i --save-dev eslint-plugin-prettier
+npm i --save-dev eslint-plugin-html
+npm i --save-dev eslint-plugin-import
+npm i --save-dev eslint-plugin-jsx-a11y (a11y not ally, those are numbers)
+npm i --save-dev eslint-plugin-react
+npm i --save-dev eslint-plugin-react-hooks
 
-### `npm start`
+    Don't forget about the command: npm audit fix to install any compatible updates to vulnerable dependencies!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Create the files .prettierrc and .eslintrc (those are config files for packets you have installed before)
+   The content of the .prettierrc: (you may change it)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+{
+"singleQuote": true,
+"trailingComma": "es5",
+"endOfLine": "lf",
+"printWidth": 120
+}
 
-### `npm test`
+The content of the .eslintrc file (you may change it as well)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+{
+"extends": [
+"airbnb",
+"airbnb/hooks",
+"eslint-config-prettier",
+"prettier"
+],
+"plugins": [
+"react",
+"react-hooks",
+"import",
+"jsx-a11y"
+],
+"parser": "babel-eslint",
+"env": {
+"browser": true,
+"jest": true
+},
+"rules": {
+"curly": ["error"],
+"max-depth": ["warn", 4],
+"id-length": ["warn", {
+"exceptions": ["i", "j"],
+"min": 2
+}],
+"no-lonely-if": ["error"],
+"no-plusplus": ["off"],
+"no-restricted-syntax": "off",
+"class-methods-use-this": "off",
+"jsx-a11y/href-no-hash": ["off"],
+"jsx-a11y/anchor-is-valid": ["off"],
+"jsx-a11y/label-has-associated-control": [
+"error",
+{
+"assert": "either"
+}
+],
+"react/state-in-constructor": ["off"],
+"react/jsx-props-no-spreading": ["off"],
+"react/static-property-placement": "off",
+"react/jsx-filename-extension": [1, {
+"extensions": [".js", ".jsx"]
+}],
+"react/destructuring-assignment": "off",
+"no-param-reassign": "off",
+"no-return-assign": "off"
+},
+"settings": {
+"react": {
+"pragma": "React",
+"version": "detect"
+}
+}
+} 4. Create a file .eslintignore
+The content of it: (you may change it)
+node_modules
+/.vscode
+/.git 5. Time to add some scripts to be able to use it from Terminal
+Open the file package.json from your root folder project
+Find the name "scripts" inside that file
+Add your own name and options to your scripts
+It might be looked like that (you may change it)
 
-### `npm run build`
+"scripts": {
+"start": react - scripts start ",
+"build": "react-scripts build",
+"test": "react-scripts test",
+"eject": "react-scripts eject",
+"lint": "eslint \"src/**/\*.{js,jsx}\"",
+"lint:fix": "eslint \"src/**/\*.{js,jsx}\" --fix --color",
+"format": "prettier --config .prettierrc ./src --write",
+}, 6. You're able to use the scripts now
+For example, like this:
+npm run lint - this command will scan all your files (from the path you specified) for errors
+npm run lint:fix - this command will fix all possible errors
+npm run format - this one will format all your files containing erros 7. Probably when you have used the command "npm run lint" you see some errors such as "Cannot use import statement outside a module"
+Well, let's fix it by replacing babel-eslint with @babel/eslint-parser
+Run the commands:
+npm install --save-dev @babel/core @babel/cli @babel/preset-env
+npm install --save-dev @babel/preset-react
+Create a file "babel.config.json" (you may change it as well) inside your root folder project "again"
+The content of it: (you may change it)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+{
+"presets": [
+[
+"@babel/preset-env",
+{
+"browserslistEnv": "> 0.25%, not dead"
+}
+]
+]
+}
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Navigate the file ".eslintrc" and replace the parcer:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+"parser": "@babel/eslint-parser",
+"parserOptions": {
+"sourceType": "module",
+"allowImportExportEveryWhere": false,
+"ecmaFeatures": {
+"globalReturn": false,
+"jsx": true
+},
+"ecmaVersion": 2020,
+"babelOptions": {
+"presets": [
+"@babel/preset-react"
+]
+}
+}, 8. The errors are gone! (You fixed them all! And format your code as well by using the command npm run format)
+Now you might see a happy message (it's just empty) from your terminal
 
-### `npm run eject`
+> my-app@0.1.0 lint /home/user/react-apps/my-app
+> eslint "src/\*_/_.{js,jsx}"
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    --- empty line ---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+but time to configure husky & lint-staged 9. Well, let's do it!
+Run the commands from your terminal:
+npx husky-init --save-dev - this command will enable git hooks (you'll se a new folder "husky" in your project)
+After that find the husky folder and open the file pre-commit
+Add the following code within that file:
+npm run lint && npm run lint:fix && npm run format
+Next try to commit your code that might have some errors
+And you'll see that you just can't do that because of the command above (lint)
+Fix the errors so you're able to commit again. But the code is already checked and well formatted 10. What if you have a massive repository?! And you need to check out just the files that were changed?!
+The lint-staged library might help you with that!
+So, install it by running the following command below:
+npm i --save-dev lint-staged
+After that open the file package.json and add the following code at the end of your file (right after devDependencies):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+"husky": {
+"pre-commit": "lint-staged"
+},
+"lint-staged": {
+"\*.js": [
+"npm run lint",
+"npm run lint:fix",
+"npm run format"
+]
+}
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Next go back to the file pre-commit and replace the content with the following below:
+npx lint-staged
+Now, you're good to go! 11. Bonus section! Deploying a react app to Vercel
+Visit the site: https://vercel.com/
+Sign up or login
+Go back to your Terminal of the root folder of your project
+Run the following command to install vercel: sudo npm i -g vercel
+Run the next command to start vercel: vercel
+Enter your email address: ...
+Verify request: ...
+Set up and deploy: "your-path"
+Which scope do you want to deploy: press enter
+Link to existing project: No (it's your first project, right)
+What's your project's name: press enter
+In which directory is your code located: press enter
+Want to override the settings: No
+Wait for building and deploying your project
+Open a link that vercel provides at the end of operation
+Congratulations! It's done!
