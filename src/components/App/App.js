@@ -7,7 +7,7 @@ import './App.css';
 
 export default function App() {
   return (
-    <div>
+    <div className="wrapper">
       <Header />
       <RandomPlanet />
 

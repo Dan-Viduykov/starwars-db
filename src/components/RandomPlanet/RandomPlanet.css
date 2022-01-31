@@ -1,10 +1,20 @@
 .random-planet {
-  display: flex;
+  margin-bottom: 1rem;
   padding: 1rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .random-planet .planet-image {
   width: 150px;
   height: 150px;
   border-radius: 10px;
+}
+
+.random-planet .list-group-item {
+  padding: 0.25rem;
+}
+
+.random-planet .list-group-item .term {
+  padding: 0.5rem;
 }
