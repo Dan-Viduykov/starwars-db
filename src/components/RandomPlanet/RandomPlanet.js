@@ -16,7 +16,7 @@ export default class RandomPlanet extends Component {
 
   constructor() {
     super();
-    this.id = Math.round(Math.random() * 25) + 1000;
+    this.id = Math.round(Math.random() * 25) + 1;
     this.updatePlanet();
   }
 
