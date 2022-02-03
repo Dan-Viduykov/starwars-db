@@ -1,14 +1,14 @@
 .error-indicator {
-    width: 400px;
-    margin: 0 auto;
-    text-align: center;
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .error-indicator p {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .icon {
-    background-color: transparent;
-    width: 120px;
+  background-color: transparent;
+  width: 120px;
 }
